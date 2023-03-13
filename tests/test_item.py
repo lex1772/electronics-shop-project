@@ -15,6 +15,7 @@ def test_item_init(item1):
 
 
 def test_apply_discount(item1):
+    item1.apply_discount()
     assert item1.price == 10000
 
 
