@@ -29,10 +29,12 @@ class Item:
     @name.setter
     def name(self, name):
         try:
-            if len(name) < 10:
+            if len(self.__name) < 10:
                 self.__name = name
-        except len(name) >= 10:
-            print(f'Длина наименования товара превышает 10 символов')
+            if len(self.__name) >= 10:
+                raise Exception
+        except Exception:
+            print("Длина наименования товара превышает 10 символов.")
 
     def calculate_total_price(self) -> float:
         """
@@ -57,10 +59,27 @@ class Item:
         with open(items, 'r', encoding='utf-8') as file:
             csvreader_object = csv.DictReader(file)
             for row in csvreader_object:
-                cls.all.append(row)
-
+                cls(row.get('name'), int(row.get('price')), int(row.get('quantity')))
 
     @staticmethod
     def string_to_number(string):
-        return int(string)
-
+        try:
+            int_to_str = int(string)
+            return int_to_str
+        except ValueError:
+            list_for_count = list(string)
+            count = list_for_count.count('.')
+            if count == 1:
+                list_for_count.pop(list_for_count.index('.'))
+                counter = 0
+                for i in list_for_count:
+                    if i.isdigit():
+                        counter += 1
+                if counter == len(list_for_count):
+                    int_to_str = float(string)
+                    int_to_str = int(int_to_str)
+                    return int_to_str
+                else:
+                    print('Переданная строка не является числом')
+            else:
+                print('Переданная строка не является числом')

@@ -21,3 +21,17 @@ def test_apply_discount(item1):
 
 def test_calculate_total_price(item1):
     assert item1.calculate_total_price() == 200000
+
+
+def test_name_setter(item1):
+    assert item1.name == 'Смартфон'
+
+
+def test_instantiate_from_csv(item1):
+    Item.instantiate_from_csv()
+    assert len(Item.all) == 5
+
+
+def test_string_to_number(item1):
+    assert Item.string_to_number('5') == 5
+    assert Item.string_to_number('a') == None
