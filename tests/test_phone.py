@@ -29,4 +29,5 @@ def test_phone_init(phone1):
 def test_add(phone1, item1):
     assert item1 + phone1 == 25
     assert phone1 + phone1 == 10
-    assert phone1 + 5 == ValueError('Складывать можно только объекты Employee и дочерние от них.')
+    with pytest.raises(ValueError):
+        phone1 + 5
