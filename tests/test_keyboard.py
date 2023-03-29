@@ -13,7 +13,9 @@ def test_keyboard_init(kb):
     assert kb.language == "EN"
 
 def test_change_lang(kb):
-    assert kb.change_lang() == "RU"
-    assert kb.change_lang().change_lang() == "RU"
+    kb.change_lang()
+    assert kb.language == "RU"
+    kb.change_lang().change_lang()
+    assert kb.language == "RU"
     with pytest.raises(AttributeError):
         kb.language = "UZ"

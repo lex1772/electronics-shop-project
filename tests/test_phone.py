@@ -18,10 +18,10 @@ def test_phone_init(phone1):
     assert phone1.price == 120_000
     assert phone1.quantity == 5
     assert phone1.number_of_sim == 2
-    phone1.number_of_sim = 0
-    assert phone1.number_of_sim == 2
-    phone1.number_of_sim = 0.1
-    assert phone1.number_of_sim == 2
+    with pytest.raises(ValueError, match="Количество физических SIM-карт должно быть целым числом больше нуля."):
+        phone1.number_of_sim = 0
+    with pytest.raises(ValueError, match="Количество физических SIM-карт должно быть целым числом больше нуля."):
+        phone1.number_of_sim = 0.1
     phone1.number_of_sim = 3
     assert phone1.number_of_sim == 3
 
