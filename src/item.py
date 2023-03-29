@@ -51,21 +51,28 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls):
+    def instantiate_from_csv(cls, dir='C:\\Users\\lexa1\\PycharmProjects\\electronics-shop-project\\src\\items.csv'):
         try:
-            #InstantiateCSVError()
             cls.all = []
-            #os.chdir('..')
-            work_dir = os.getcwd()
-            items = os.path.join(work_dir, 'src', 'items.csv')
-            with open(items, 'r', encoding='utf-8') as file:
+            # work_dir = os.getcwd()
+            # items = os.path.join(work_dir, 'src', 'items.csv')
+            # if not os.path.isfile(items):
+            # os.chdir('..')
+            # work_dir = os.getcwd()
+            # items = os.path.join(work_dir, 'src', 'items.csv')
+            with open(dir, 'r', encoding='utf-8') as file:
                 csvreader_object = csv.DictReader(file)
                 for row in csvreader_object:
-                    cls(row.get('name'), int(row.get('price')), int(row.get('quantity')))
+                    if len(row) != 3:
+                        raise InstantiateCSVError
+                    else:
+                        cls(row.get('name'), int(row.get('price')), int(row.get('quantity')))
         except FileNotFoundError:
             print("Отсутствует файл item.csv")
-        #except InstantiateCSVError:
-            #print("Файл item.csv поврежден")
+            raise
+        except InstantiateCSVError:
+            print("Файл item.csv поврежден")
+            raise
 
     @staticmethod
     def string_to_number(string):
@@ -102,14 +109,5 @@ class Item:
         return self.quantity + other.quantity
 
 
-#class InstantiateCSVError(BaseException):
-    #def __init__(self):
-        #os.chdir('..')
-        #work_dir = os.getcwd()
-        #items = os.path.join(work_dir, 'src', 'items.csv')
-        #with open(items, 'r', encoding='utf-8') as file:
-            #csvreader_object = csv.DictReader(file)
-            #for row in csvreader_object:
-                #if len(row) != 3:
-                    #raise InstantiateCSVError
-
+class InstantiateCSVError(Exception):
+    pass
