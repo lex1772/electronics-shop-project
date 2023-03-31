@@ -9,18 +9,18 @@ def item1():
 
 
 @pytest.fixture
-def direction_correct():
-    return "C:\\Users\\lexa1\\PycharmProjects\\electronics-shop-project\\tests\\test_corect_items.csv"
+def file_correct():
+    return "test_corect_items.csv"
 
 
 @pytest.fixture
-def direction_empty():
-    return "C:\\Users\\lexa1\\PycharmProjects\\electronics-shop-project\\tests\\file_empty.csv"
+def file_empty():
+    return "file_empty.csv"
 
 
 @pytest.fixture
-def direction_damaged():
-    return "C:\\Users\\lexa1\\PycharmProjects\\electronics-shop-project\\tests\\test_file_damaged.csv"
+def file_damaged():
+    return "test_file_damaged.csv"
 
 
 def test_item_init(item1):
@@ -42,13 +42,13 @@ def test_name_setter(item1):
     assert item1.name == 'Смартфон'
 
 
-def test_instantiate_from_csv(item1, direction_correct, direction_empty, direction_damaged):
-    Item.instantiate_from_csv(dir=direction_correct)
+def test_instantiate_from_csv(item1, file_correct, file_empty, file_damaged):
+    Item.instantiate_from_csv(dir='tests', file=file_correct)
     assert len(Item.all) == 5
     with pytest.raises(FileNotFoundError):
-        Item.instantiate_from_csv(dir=direction_empty)
+        Item.instantiate_from_csv(dir='tests', file=file_empty)
     with pytest.raises(InstantiateCSVError):
-        Item.instantiate_from_csv(dir=direction_damaged)
+        Item.instantiate_from_csv(dir='tests', file=file_damaged)
 
 
 def test_string_to_number(item1):

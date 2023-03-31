@@ -51,27 +51,27 @@ class Item:
         self.price *= self.pay_rate
 
     @classmethod
-    def instantiate_from_csv(cls, dir='C:\\Users\\lexa1\\PycharmProjects\\electronics-shop-project\\src\\items.csv'):
+    def instantiate_from_csv(cls, dir="src", file="items.csv"):
         try:
             cls.all = []
-            # work_dir = os.getcwd()
-            # items = os.path.join(work_dir, 'src', 'items.csv')
-            # if not os.path.isfile(items):
-            # os.chdir('..')
-            # work_dir = os.getcwd()
-            # items = os.path.join(work_dir, 'src', 'items.csv')
-            with open(dir, 'r', encoding='utf-8') as file:
-                csvreader_object = csv.DictReader(file)
+            work_dir = os.getcwd()
+            dir_correct = work_dir.split("\\")
+            if dir_correct[-1] != "electronics-shop-project":
+                os.chdir('..')
+                work_dir = os.getcwd()
+            items = os.path.join(work_dir, dir, file)
+            with open(items, 'r', encoding='utf-8') as f:
+                csvreader_object = csv.DictReader(f)
                 for row in csvreader_object:
-                    if len(row) != 3:
+                    if len(row) != 3 or None in row:
                         raise InstantiateCSVError
                     else:
                         cls(row.get('name'), int(row.get('price')), int(row.get('quantity')))
         except FileNotFoundError:
-            print("Отсутствует файл item.csv")
+            print(f"Отсутствует файл {file}")
             raise
         except InstantiateCSVError:
-            print("Файл item.csv поврежден")
+            print(f"Файл {file} поврежден")
             raise
 
     @staticmethod
